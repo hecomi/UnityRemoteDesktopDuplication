@@ -454,10 +454,10 @@ MonoBehaviour:
     width: 1920
     height: 1080
     frameRate: 60
-    bitRate: 2000000
-    maxFrameSize: 40000
+    bitRate: 10000000
+    maxFrameSize: 200000
     format: 87
-  forceIdrFrame: 1
+  forceIdrFrame: 0
 --- !u!4 &5440751891797283245
 Transform:
   m_ObjectHideFlags: 0
