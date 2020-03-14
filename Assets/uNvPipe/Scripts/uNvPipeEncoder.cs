@@ -29,9 +29,6 @@ public class uNvPipeEncoder : MonoBehaviour
     [SerializeField]
     public Compression compression = Compression.LOSSY;
 
-    [SerializeField]
-    bool multithreaded = true;
-
     public int id { get; private set; } = -1;
 
     public bool isValid
@@ -83,16 +80,9 @@ public class uNvPipeEncoder : MonoBehaviour
         }
     }
 
-    public async Task Encode(System.IntPtr data, bool forceIframe = false)
+    public void Encode(System.IntPtr data, bool forceIframe = false)
     {
-        if (multithreaded)
-        {
-            await Task.Run(() => _Encode(data, forceIframe));
-        }
-        else
-        {
-            _Encode(data, forceIframe);
-        }
+        _Encode(data, forceIframe);
 
         if (isEncoded_)
         {
@@ -100,13 +90,13 @@ public class uNvPipeEncoder : MonoBehaviour
         }
     }
 
-    public async void Encode(Texture2D texture, bool forceIframe = false)
+    public void Encode(Texture2D texture, bool forceIframe = false)
     {
         var pixels  = texture.GetPixels32();
         var handle  = GCHandle.Alloc(pixels, GCHandleType.Pinned);
         var pointer = handle.AddrOfPinnedObject();
 
-        await Encode(pointer, forceIframe);
+        Encode(pointer, forceIframe);
 
         handle.Free();
     }

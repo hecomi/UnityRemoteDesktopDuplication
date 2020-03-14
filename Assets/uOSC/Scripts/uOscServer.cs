@@ -18,9 +18,8 @@ public class uOscServer : MonoBehaviour
 #endif
     Parser parser_ = new Parser();
 
-    [System.Serializable]
     public class DataReceiveEvent : UnityEvent<Message> {};
-    public DataReceiveEvent onDataReceived = new DataReceiveEvent();
+    public DataReceiveEvent onDataReceived { get; private set; } = new DataReceiveEvent();
 
     void OnEnable()
     {

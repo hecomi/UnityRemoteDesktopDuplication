@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace uNvEncoder.Examples
 {
 
-public class OutputEncodedDataToFile : MonoBehaviour
+public class OutputDataToFile : MonoBehaviour
 {
     [SerializeField]
     string filePath = "test.h264";
@@ -32,9 +32,11 @@ public class OutputEncodedDataToFile : MonoBehaviour
         }
     }
 
-    public void OnEncoded(System.IntPtr ptr, int size)
+    public void OnData(System.IntPtr ptr, int size)
     {
         if (!enabled) return;
+
+        if (ptr == System.IntPtr.Zero) return;
 
         var bytes = new byte[size];
         Marshal.Copy(ptr, bytes, 0, size);

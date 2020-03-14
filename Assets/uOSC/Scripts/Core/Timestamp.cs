@@ -44,7 +44,7 @@ public struct Timestamp
         return TimeZoneInfo.ConvertTime(ToUtcTime(), TimeZoneInfo.Local);
 #else
         var utc = ToUtcTime();
-        var timeZone = System.TimeZone.CurrentTimeZone;
+        var timeZone = System.TimeZoneInfo.Local;
         return utc + timeZone.GetUtcOffset(DateTime.Now);
 #endif
     }

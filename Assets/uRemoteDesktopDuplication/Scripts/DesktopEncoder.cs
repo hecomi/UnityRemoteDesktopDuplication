@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 
 namespace UnityRemoteDesktopDuplication
@@ -13,7 +14,7 @@ public class DesktopEncoder : MonoBehaviour
     uNvEncoder.Encoder encoder = null;
 
     [SerializeField]
-    uNvEncoder.EncoderDesc setting = new uNvEncoder.EncoderDesc
+    public uNvEncoder.EncoderDesc setting = new uNvEncoder.EncoderDesc
     {
         width = 1920,
         height = 1080,
@@ -51,10 +52,10 @@ public class DesktopEncoder : MonoBehaviour
         for (int i = 0; true; ++i)
         {
             yield return new WaitForEndOfFrame();
-            if (i % 2 == 0)
+            //if (i % 2 == 0)
             {
-                encoder.Update();
                 encoder.Encode(texture.monitor.texture, forceIdrFrame);
+                encoder.Update();
             }
         }
     }

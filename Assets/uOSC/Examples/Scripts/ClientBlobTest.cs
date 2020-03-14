@@ -9,7 +9,7 @@ public class ClientBlobTest : MonoBehaviour
     [SerializeField]
     Texture2D texture = null;
 
-    byte[] byteTexture_ = null;
+    byte[] byteTexture_;
 
     void Start()
     {

@@ -100,7 +100,8 @@ public static class Lib
     public static string DecoderGetError(int id)
     {
         var ptr = DecoderGetErrorInternal(id);
-        return Marshal.PtrToStringAnsi(ptr);
+        UnityEngine.Debug.Log(ptr);
+        return Marshal.PtrToStringAuto(ptr);
     }
 }
 
