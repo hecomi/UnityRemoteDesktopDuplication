@@ -98,7 +98,11 @@ public class Encoder
         var ptr = texture.GetNativeTexturePtr();
         if (!Encode(ptr, forceIdrFrame))
         {
-            Debug.LogError(error);
+            var msg = error;
+            if (!string.IsNullOrEmpty(msg))
+            {
+                Debug.LogError(msg);
+            }
             return false;
         }
 
