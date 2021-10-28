@@ -10,6 +10,7 @@ public class Encoder
     [System.Serializable]
     public class EncodedCallback : UnityEvent<System.IntPtr, int> {};
     public EncodedCallback onEncoded = new EncodedCallback();
+    public bool outputError = false;
 
     public int id { get; private set; } = -1;
 
@@ -99,7 +100,7 @@ public class Encoder
         if (!Encode(ptr, forceIdrFrame))
         {
             var msg = error;
-            if (!string.IsNullOrEmpty(msg))
+            if (outputError && !string.IsNullOrEmpty(msg))
             {
                 Debug.LogError(msg);
             }
@@ -124,7 +125,7 @@ public class Encoder
         }
 
         var result = Lib.Encode(id, ptr, forceIdrFrame);
-        if (!result)
+        if (outputError && !result)
         {
             Debug.LogError(error);
         }

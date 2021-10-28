@@ -21,13 +21,13 @@ void PacketFragmenter::FragmentData(const void *pData, uint32_t size)
     const uint32_t fragmentSize = size / fragmentCount + 1;
 
     PacketHeader header = { GetPacketHeaderVersion() };
-    header.type = static_cast<uint32_t>(PacketType::Fragment);
+    header.type = static_cast<uint8_t>(PacketType::Fragment);
     header.totalSize = size;
     header.timestamp = time_point_cast<milliseconds>(system_clock::now()).time_since_epoch().count();
     header.frameIndex = frameIndex_++;
-    header.fragmentCount = fragmentCount;
+    header.fragmentCount = static_cast<uint16_t>(fragmentCount);
 
-    for (uint32_t i = 0; i < fragmentCount; ++i)
+    for (uint16_t i = 0; i < fragmentCount; ++i)
     {
         const auto bufSize = static_cast<size_t>(maxBufSize) + headerSize;
         auto buf = std::make_unique<char[]>(bufSize);

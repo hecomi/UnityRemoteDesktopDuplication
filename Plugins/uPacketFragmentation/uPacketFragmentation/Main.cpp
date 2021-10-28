@@ -165,7 +165,7 @@ UNITY_INTERFACE_EXPORT uint64_t UNITY_INTERFACE_API UpfAssemblerGetAssembledFram
     {
         return assembler->GetAssembledFrameIndex();
     }
-    return -1;
+    return UINT64_MAX;
 }
 
 

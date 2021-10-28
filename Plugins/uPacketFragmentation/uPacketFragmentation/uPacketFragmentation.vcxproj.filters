@@ -10,5 +10,14 @@
       <Filter>Unity</Filter>
     </ClInclude>
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="Assembler.h" />
+    <ClInclude Include="Fragmenter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Assembler.cpp" />
+    <ClCompile Include="Fragmenter.cpp" />
   </ItemGroup>
 </Project>

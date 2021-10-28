@@ -8,7 +8,7 @@ namespace uPacketFragmentation
 {
 
 
-void Frame::AddFragmentData(const void *pData, uint32_t size)
+void Frame::AddFragmentData(const void *pData, uint32_t)
 {
     const auto &header = *reinterpret_cast<const PacketHeader*>(pData);
 

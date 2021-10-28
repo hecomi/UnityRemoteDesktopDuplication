@@ -32,3 +32,5 @@ sysinfo.txt
 .vs
 **/*.h264
 *.log
+.vsconfig
+

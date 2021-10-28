@@ -32,6 +32,7 @@ public class DesktopSender : MonoBehaviour
         for (uint i = 0; i < n; ++i)
         {
             var fragmentData = fragmenter_.GetFragmentData(i);
+            if (fragmentData == System.IntPtr.Zero) return;
             var fragmentSize = (int)fragmenter_.GetFragmentSize(i);
             byte[] buf = new byte[fragmentSize];
             Marshal.Copy(fragmentData, buf, 0, fragmentSize);

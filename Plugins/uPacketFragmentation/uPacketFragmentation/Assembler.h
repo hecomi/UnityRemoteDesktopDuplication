@@ -66,9 +66,9 @@ private:
 
     std::map<uint64_t, std::unique_ptr<Frame>> frames_;
     std::deque<uint64_t> assembledFrameIndices_;
-    uint64_t oldestFrameIndex_ = -1;
-    uint64_t latestFrameIndex_ = -1;
-    uint64_t latestTimestamp_ = -1;
+    uint64_t oldestFrameIndex_ = UINT64_MAX;
+    uint64_t latestFrameIndex_ = UINT64_MAX;
+    uint64_t latestTimestamp_ = UINT64_MAX;
     PacketEventType eventType_ = PacketEventType::None;
     PacketLossType lossType_ = PacketLossType::None;
 };
