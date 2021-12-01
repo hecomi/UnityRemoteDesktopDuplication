@@ -381,6 +381,16 @@ PrefabInstance:
       propertyPath: forceIdrFrame
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7790942827443430434, guid: 2b67c08c118b3aa498a1c842fa98de74,
+        type: 3}
+      propertyPath: setting.bitRate
+      value: 2000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790942827443430434, guid: 2b67c08c118b3aa498a1c842fa98de74,
+        type: 3}
+      propertyPath: setting.maxFrameSize
+      value: 40000
+      objectReference: {fileID: 0}
     - target: {fileID: 7790942828218749804, guid: 2b67c08c118b3aa498a1c842fa98de74,
         type: 3}
       propertyPath: m_Name
