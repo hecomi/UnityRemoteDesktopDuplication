@@ -13,8 +13,15 @@ Platforms
 
 Dependencies
 ------------
+
 - [uDesktopDuplication](https://github.com/hecomi/uDesktopDuplication)
 - [uNvEncoder](https://github.com/hecomi/uNvEncoder)
 - [uNvPipe](https://github.com/hecomi/uNvPipe)
 - [uOSC](https://github.com/hecomi/uOSC)
 - [uPacketDivision](https://github.com/hecomi/uPacketDivision)
+
+
+Screenshot
+----------
+
+<img src="https://raw.githubusercontent.com/wiki/hecomi/UnityRemoteDesktopDuplication/UnityRemoteDesktopDuplication.gif" />
