@@ -1,47 +1,31 @@
 ﻿using UnityEngine;
-using System.Runtime.InteropServices;
 using uOSC;
-using uPacketFragmentation;
+using uPacketDivision;
+using System.Runtime.InteropServices;
 
 namespace UnityRemoteDesktopDuplication
 {
 
 public class DesktopReceiver : MonoBehaviour
 {
-    public uOscServer server;
     public uNvPipe.uNvPipeDecoder decoder;
-    public uNvEncoder.Examples.OutputDataToFile output;
+    public uint timeout = 100;
     Assembler assembler_ = new Assembler();
     bool isInitialized_ = false;
 
-    void OnEnable()
-    {
-        if (server)
-        {
-            server.onDataReceived.AddListener(OnDataReceived);
-        }
-    }
-
-    void OnDisable()
-    {
-        if (server)
-        {
-            server.onDataReceived.RemoveListener(OnDataReceived);
-        }
-    }
-
     public void OnDataReceived(Message message)
     {
-        if (message.address == "/uDD/ScreenSize" && !decoder.isActiveAndEnabled)
+        assembler_.timeout = timeout;
+
+        if (message.address == "/uDD/Size")
         {
             var width = (int)message.values[0];
             var height = (int)message.values[1];
             SetScreenSize(width, height);
         }
-        else if (message.address == "/uDD/Fragment")
+        else if (message.address == "/uDD/Data")
         {
-            var data = (byte[])message.values[0];
-            AddFragmentData(data);
+            assembler_.Add((byte[])message.values[0]);
             CheckPacketEvent();
         }
     }
@@ -58,34 +42,24 @@ public class DesktopReceiver : MonoBehaviour
         isInitialized_ = true;
     }
 
-    void AddFragmentData(byte[] data)
-    {
-        var handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-        var ptr = handle.AddrOfPinnedObject();
-        var size = (uint)data.Length;
-        assembler_.AddData(ptr, size);
-        handle.Free();
-    }
-
     void CheckPacketEvent()
     {
         if (!isInitialized_) return;
 
-        switch (assembler_.GetPacketEventType())
+        switch (assembler_.GetEventType())
         {
-            case PacketEventType.FrameCompleted:
+            case uPacketDivision.EventType.FrameCompleted:
             {
-                var index = assembler_.GetAssembledFrameIndex();
-                var data = assembler_.GetFrameData(index);
-                var size = assembler_.GetFrameSize(index);
-                decoder.Decode(data, (int)size);
-                if (output) output.OnData(data, (int)size);
-                assembler_.RemoveFrame(index);
+                var data = assembler_.GetAssembledData<byte>();
+                int size = data.Length;
+                var handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+                var ptr = handle.AddrOfPinnedObject();
+                decoder.Decode(ptr, (int)size);
+                handle.Free();
                 break;
             }
-            case PacketEventType.PacketLoss:
+            case uPacketDivision.EventType.PacketLoss:
             {
-                // TODO: IDR フレーム要求
                 Debug.LogError("packet loss");
                 break;
             }

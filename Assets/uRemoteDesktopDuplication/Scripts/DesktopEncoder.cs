@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 using System.Collections;
 
 namespace UnityRemoteDesktopDuplication
@@ -24,7 +23,8 @@ public class DesktopEncoder : MonoBehaviour
         maxFrameSize = 40000,
     };
 
-    public bool forceIdrFrame = false;
+    public int idrFrameIntervalFrame = 60;
+    int idrFrameCounter_ = 0;
 
     void OnEnable()
     {
@@ -49,14 +49,16 @@ public class DesktopEncoder : MonoBehaviour
         setting.height = texture.monitor.height;
         encoder.Create(setting);
 
-        for (int i = 0; true; ++i)
+        for (;;)
         {
-            yield return new WaitForEndOfFrame();
-            //if (i % 2 == 0)
+            if (setting.frameRate < 60)
             {
-                encoder.Encode(texture.monitor.texture, forceIdrFrame);
-                encoder.Update();
+                yield return new WaitForSeconds(1f / setting.frameRate);
             }
+
+            bool idr = idrFrameCounter_++ % idrFrameIntervalFrame == 0;
+            encoder.Encode(texture.monitor.texture, idr);
+            encoder.Update();
         }
     }
 

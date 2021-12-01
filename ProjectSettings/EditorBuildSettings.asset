@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/uRemoteDesktopDuplication/Scenes/Sender.unity
+    guid: d32ad1e59ae051640a61a11652667c51
   m_configObjects: {}

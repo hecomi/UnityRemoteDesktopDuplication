@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Runtime.InteropServices;
 using uOSC;
-using uPacketFragmentation;
+using uPacketDivision;
 
 namespace UnityRemoteDesktopDuplication
 {
@@ -10,33 +9,21 @@ public class DesktopSender : MonoBehaviour
 {
     public uOscClient client;
     public DesktopEncoder encoder;
-    Fragmenter fragmenter_ = new Fragmenter();
-
+    public uint maxPacketSize = 1400;
     public uNvEncoder.EncoderDesc desc { get; set; }
-
-    public int maxPacketSize = 1400;
-
-    void Start()
-    {
-        fragmenter_.maxPacketSize = maxPacketSize;
-    }
+    Divider divider_ = new Divider();
 
     public void OnEncoded(System.IntPtr data, int size)
     {
         var width = encoder.setting.width;
         var height = encoder.setting.height;
-        client.Send("/uDD/ScreenSize", width, height);
+        client.Send("/uDD/Size", width, height);
 
-        fragmenter_.Fragment(data, (uint)size);
-        var n = fragmenter_.GetFragmentCount();
-        for (uint i = 0; i < n; ++i)
+        divider_.maxPacketSize = maxPacketSize;
+        divider_.Divide(data, (uint)size);
+        for (uint i = 0; i < divider_.GetChunkCount(); ++i)
         {
-            var fragmentData = fragmenter_.GetFragmentData(i);
-            if (fragmentData == System.IntPtr.Zero) return;
-            var fragmentSize = (int)fragmenter_.GetFragmentSize(i);
-            byte[] buf = new byte[fragmentSize];
-            Marshal.Copy(fragmentData, buf, 0, fragmentSize);
-            client.Send("/uDD/Fragment", buf);
+            client.Send("/uDD/Data", divider_.GetChunk(i));
         }
     }
 }
