@@ -1,7 +1,7 @@
 UnityRemoteDesktopDuplication
 =============================
 
-This is an example of sending a desktop image to a remote location. The image is captured by Desktop Duplication API and encoded using NVENC (NvPipe is not used to reduce the overhead). The buffer is then sent over UDP and decoded with NvPipe (NVDEC) in a remove location.
+This is an example of sending a desktop image to a remote location. The image is captured by Desktop Duplication API and encoded using NVENC directly (NvPipe is not used to reduce the overhead for encoding). The buffer is then sent over UDP and decoded with NvPipe (NVDEC) in a remote location.
 
 Platforms
 ---------
